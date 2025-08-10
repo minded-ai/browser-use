@@ -4085,7 +4085,7 @@ class BrowserSession(BaseModel):
 				if element_handle:
 					is_visible = await self._is_visible(element_handle)
 					if is_visible:
-						await element_handle.scroll_into_view_if_needed(timeout=1_000)
+						await element_handle.scroll_into_view_if_needed(timeout=10_000)
 					return element_handle
 				return None
 		except Exception as e:
@@ -4101,7 +4101,7 @@ class BrowserSession(BaseModel):
 					if element_handle:
 						is_visible = await self._is_visible(element_handle)
 						if is_visible:
-							await element_handle.scroll_into_view_if_needed(timeout=1_000)
+							await element_handle.scroll_into_view_if_needed(timeout=10_000)
 						return element_handle
 				except Exception as xpath_e:
 					self.logger.error(
@@ -4128,7 +4128,7 @@ class BrowserSession(BaseModel):
 			if element_handle:
 				is_visible = await self._is_visible(element_handle)
 				if is_visible:
-					await element_handle.scroll_into_view_if_needed(timeout=1_000)
+					await element_handle.scroll_into_view_if_needed(timeout=10_000)
 				return element_handle
 			return None
 		except Exception as e:
@@ -4149,7 +4149,7 @@ class BrowserSession(BaseModel):
 			if element_handle:
 				is_visible = await self._is_visible(element_handle)
 				if is_visible:
-					await element_handle.scroll_into_view_if_needed(timeout=1_000)
+					await element_handle.scroll_into_view_if_needed(timeout=10_000)
 				return element_handle
 			return None
 		except Exception as e:
@@ -4193,7 +4193,7 @@ class BrowserSession(BaseModel):
 
 			is_visible = await self._is_visible(element_handle)
 			if is_visible:
-				await element_handle.scroll_into_view_if_needed(timeout=1_000)
+				await element_handle.scroll_into_view_if_needed(timeout=10_000)
 			return element_handle
 		except Exception as e:
 			self.logger.error(
@@ -4220,7 +4220,7 @@ class BrowserSession(BaseModel):
 				await element_handle.wait_for_element_state('stable', timeout=1_000)
 				is_visible = await self._is_visible(element_handle)
 				if is_visible:
-					await element_handle.scroll_into_view_if_needed(timeout=1_000)
+					await element_handle.scroll_into_view_if_needed(timeout=10_000)
 			except Exception:
 				pass
 
