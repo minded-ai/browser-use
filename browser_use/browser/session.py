@@ -3419,10 +3419,10 @@ class BrowserSession(BaseModel):
 			page_info = await self.get_page_info(page)
 			try:
 				self.logger.debug('📏 Getting scroll info...')
-				pixels_above, pixels_below = await asyncio.wait_for(self.get_scroll_info(page), timeout=5.0)
+				pixels_above, pixels_below = await asyncio.wait_for(self.get_scroll_info(page), timeout=15.0)
 				self.logger.debug('✅ Scroll info completed')
 			except Exception as e:
-				self.logger.warning(f'Failed to get scroll info: {type(e).__name__}')
+				self.logger.warning(f'Failed to get scroll info: {type(e).__name__}: {e}')
 				pixels_above, pixels_below = 0, 0
 
 			try:
