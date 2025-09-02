@@ -534,8 +534,7 @@
       element.offsetWidth > 0 &&
       element.offsetHeight > 0 &&
       style?.visibility !== "hidden" &&
-      style?.display !== "none" &&
-      element.parentElement ? isElementVisible(element.parentElement) : true
+      style?.display !== "none"
     );
   }
 

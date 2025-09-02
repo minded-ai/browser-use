@@ -158,7 +158,7 @@ class DOMElementNode(DOMBaseNode):
 			if isinstance(node, DOMElementNode) and node != self and node.highlight_index is not None:
 				return
 
-			if isinstance(node, DOMTextNode):
+			if isinstance(node, DOMTextNode) and node.is_visible:
 				text_parts.append(node.text)
 			elif isinstance(node, DOMElementNode):
 				for child in node.children:
