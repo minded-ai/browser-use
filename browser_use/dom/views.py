@@ -160,6 +160,7 @@ class DOMElementNode(DOMBaseNode):
 
 			if isinstance(node, DOMTextNode) and node.is_visible:
 				text_parts.append(node.text)
+				print(f'Appended text: {node.text}')
 			elif isinstance(node, DOMElementNode):
 				for child in node.children:
 					collect_text(child, current_depth + 1)
