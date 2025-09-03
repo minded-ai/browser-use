@@ -1240,6 +1240,7 @@
         text: textContent,
         isVisible: isTextNodeVisible(node),
       };
+      console.log(`textNodeDebugging text: ${textContent}, isVisible: ${isTextNodeVisible(node)}`);
       return id;
     }
 
