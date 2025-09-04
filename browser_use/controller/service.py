@@ -314,7 +314,7 @@ Only use this for specific queries for information retrieval from the page. Don'
 
 			# Aggressive timeout for page content
 			try:
-				page_html_result = await asyncio.wait_for(page.content(), timeout=10.0)  # 5 second aggressive timeout
+				page_html_result = await asyncio.wait_for(get_html_without_hidden_elements(page), timeout=10.0)  # 5 second aggressive timeout
 			except TimeoutError:
 				raise RuntimeError('Page content extraction timed out after 5 seconds')
 			except Exception as e:
@@ -365,7 +365,7 @@ Only use this for specific queries for information retrieval from the page. Don'
 					+ content[-max_chars // 2 :]
 				)
 
-			prompt = """You convert websites into structured information. Extract information from this webpage based on the query. Focus only on content relevant to the query. Do not extract from elements that are not visible. If 
+			prompt = """You convert websites into structured information. Extract information from this webpage based on the query. Focus only on content relevant to the query. If 
 1. The query is vague
 2. Does not make sense for the page
 3. Some/all of the information is not available
@@ -1273,3 +1273,32 @@ Explain the content of the page and that the requested information is not availa
 				else:
 					raise ValueError(f'Invalid action result type: {type(result)} of {result}')
 		return ActionResult()
+
+
+async def get_html_without_hidden_elements(page: Page) -> str:
+			cleaned_html = await page.evaluate(
+					"""() => {
+							function isHidden(el) {
+									const style = window.getComputedStyle(el);
+									return (
+											style.display === "none" ||
+											style.visibility === "hidden" ||
+											style.opacity === "0" ||
+											el.hasAttribute("hidden") ||
+											el.getAttribute("aria-hidden") === "true"
+									);
+							}
+
+							// Deep clone so real DOM stays untouched
+							const clone = document.documentElement.cloneNode(true);
+
+							clone.querySelectorAll("*").forEach(el => {
+									if (isHidden(el)) {
+											el.remove();
+									}
+							});
+
+							return clone.outerHTML;
+					}"""
+			)
+			return cleaned_html
