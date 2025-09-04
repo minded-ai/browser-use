@@ -146,8 +146,6 @@ class DomService:
 		js_node_map = eval_page['map']
 		js_root_id = eval_page['rootId']
   
-		print("JS DOM map: %s", json.dumps(js_node_map, indent=2, ensure_ascii=False))
-
 		selector_map = {}
 		node_map = {}
 
