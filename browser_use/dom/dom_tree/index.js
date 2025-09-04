@@ -1234,13 +1234,19 @@
         return null;
       }
 
+
+      //Debug
+      if (!isTextNodeVisible(node)) {
+        return null;
+      }
+
       const id = `${ID.current++}`;
       DOM_HASH_MAP[id] = {
         type: "TEXT_NODE",
         text: textContent,
         isVisible: isTextNodeVisible(node),
       };
-      console.log(`textNodeDebugging text: ${textContent}, isVisible: ${isTextNodeVisible(node)}`);
+      
       return id;
     }
 
