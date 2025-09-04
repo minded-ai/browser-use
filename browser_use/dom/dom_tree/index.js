@@ -1240,6 +1240,10 @@
         return null;
       }
 
+      if (textContent.includes('הפעולה הושלמה בהצלחה')) {
+        console.log(JSON.stringify(node));
+      }
+
       const id = `${ID.current++}`;
       DOM_HASH_MAP[id] = {
         type: "TEXT_NODE",
