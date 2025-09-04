@@ -365,7 +365,7 @@ Only use this for specific queries for information retrieval from the page. Don'
 					+ content[-max_chars // 2 :]
 				)
 
-			prompt = """You convert websites into structured information. Extract information from this webpage based on the query. Focus only on content relevant to the query. If 
+			prompt = """You convert websites into structured information. Extract information from this webpage based on the query. Focus only on content relevant to the query. Do not extract from elements that are not visible. If 
 1. The query is vague
 2. Does not make sense for the page
 3. Some/all of the information is not available
