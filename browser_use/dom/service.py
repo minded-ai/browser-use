@@ -1,4 +1,3 @@
-import json
 import logging
 from importlib import resources
 from typing import TYPE_CHECKING

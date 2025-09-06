@@ -1276,29 +1276,30 @@ Explain the content of the page and that the requested information is not availa
 
 
 async def get_html_without_hidden_elements(page: Page) -> str:
-			cleaned_html = await page.evaluate(
-					"""() => {
-							function isHidden(el) {
-									const style = window.getComputedStyle(el);
-									return (
-											style.display === "none" ||
-											style.visibility === "hidden" ||
-											style.opacity === "0" ||
-											el.hasAttribute("hidden") ||
-											el.getAttribute("aria-hidden") === "true"
-									);
-							}
+  return await page.content()
+			# cleaned_html = await page.evaluate(
+			# 		"""() => {
+			# 				function isHidden(el) {
+			# 						const style = window.getComputedStyle(el);
+			# 						return (
+			# 								style.display === "none" ||
+			# 								style.visibility === "hidden" ||
+			# 								style.opacity === "0" ||
+			# 								el.hasAttribute("hidden") ||
+			# 								el.getAttribute("aria-hidden") === "true"
+			# 						);
+			# 				}
 
-							// Deep clone so real DOM stays untouched
-							const clone = document.documentElement.cloneNode(true);
+			# 				// Deep clone so real DOM stays untouched
+			# 				const clone = document.documentElement.cloneNode(true);
 
-							clone.querySelectorAll("*").forEach(el => {
-									if (isHidden(el)) {
-											el.remove();
-									}
-							});
+			# 				clone.querySelectorAll("*").forEach(el => {
+			# 						if (isHidden(el)) {
+			# 								el.remove();
+			# 						}
+			# 				});
 
-							return clone.outerHTML;
-					}"""
-			)
-			return cleaned_html
+			# 				return clone.outerHTML;
+			# 		}"""
+			# )
+			# return cleaned_html
