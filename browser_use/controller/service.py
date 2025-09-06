@@ -1292,7 +1292,7 @@ async def get_html_without_hidden_elements(page: Page) -> str:
 							function containsInputOrSelect(el) {
 									try {
 											// Protect both the element itself and any descendants that are input/select
-											return el.matches("input, select") || el.querySelector("input, select") !== null;
+											return el.matches("input, select, option") || el.querySelector("input, select, option") !== null;
 									} catch (e) {
 											return false;
 									}
