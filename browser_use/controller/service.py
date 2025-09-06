@@ -1276,30 +1276,39 @@ Explain the content of the page and that the requested information is not availa
 
 
 async def get_html_without_hidden_elements(page: Page) -> str:
-  return await page.content()
-			# cleaned_html = await page.evaluate(
-			# 		"""() => {
-			# 				function isHidden(el) {
-			# 						const style = window.getComputedStyle(el);
-			# 						return (
-			# 								style.display === "none" ||
-			# 								style.visibility === "hidden" ||
-			# 								style.opacity === "0" ||
-			# 								el.hasAttribute("hidden") ||
-			# 								el.getAttribute("aria-hidden") === "true"
-			# 						);
-			# 				}
+			cleaned_html = await page.evaluate(
+					"""() => {
+							function isHidden(el) {
+									const style = window.getComputedStyle(el);
+									return (
+											style.display === "none" ||
+											style.visibility === "hidden" ||
+											style.opacity === "0" ||
+											el.hasAttribute("hidden") ||
+											el.getAttribute("aria-hidden") === "true"
+									);
+							}
 
-			# 				// Deep clone so real DOM stays untouched
-			# 				const clone = document.documentElement.cloneNode(true);
+							function containsInputOrSelect(el) {
+									try {
+											// Protect both the element itself and any descendants that are input/select
+											return el.matches("input, select") || el.querySelector("input, select") !== null;
+									} catch (e) {
+											return false;
+									}
+							}
 
-			# 				clone.querySelectorAll("*").forEach(el => {
-			# 						if (isHidden(el)) {
-			# 								el.remove();
-			# 						}
-			# 				});
+							// Deep clone so real DOM stays untouched
+							const clone = document.documentElement.cloneNode(true);
 
-			# 				return clone.outerHTML;
-			# 		}"""
-			# )
-			# return cleaned_html
+							clone.querySelectorAll("*").forEach(el => {
+									// Do not remove elements that are or contain input/select, even if hidden
+									if (isHidden(el) && !containsInputOrSelect(el)) {
+											el.remove();
+									}
+							});
+
+							return clone.outerHTML;
+					}"""
+			)
+			return cleaned_html
