@@ -1289,22 +1289,30 @@ async def get_html_without_hidden_elements(page: Page) -> str:
 									);
 							}
 
-							function containsInputOrSelect(el) {
-									try {
-											// Protect both the element itself and any descendants that are input/select
-											return el.matches("input, select, option") || el.querySelector("input, select, option") !== null;
-									} catch (e) {
-											return false;
+							function isTextOnly(el) {
+									if (!el) return false;
+									// Must have no element children
+									if (el.children && el.children.length > 0) return false;
+									// Must have at least one child node and all must be text nodes
+									if (!el.childNodes || el.childNodes.length === 0) return false;
+									for (const node of el.childNodes) {
+											if (node.nodeType !== Node.TEXT_NODE) return false;
 									}
+									return true;
 							}
+
 
 							// Deep clone so real DOM stays untouched
 							const clone = document.documentElement.cloneNode(true);
 
+							const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEMPLATE"]);
+
 							clone.querySelectorAll("*").forEach(el => {
-									// Do not remove elements that are or contain input/select, even if hidden
-									if (isHidden(el) && !containsInputOrSelect(el)) {
-											el.remove();
+									if (isHidden(el)) {
+											// Instead of removing, redact text content for text-only elements with no children
+											if (!SKIP_TAGS.has(el.tagName) && isTextOnly(el)) {
+													el.textContent = "[REDACTED]";
+											}
 									}
 							});
 
