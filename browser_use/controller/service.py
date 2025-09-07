@@ -1311,7 +1311,7 @@ async def get_html_without_hidden_elements(page: Page) -> str:
 									if (isHidden(el)) {
 											// Instead of removing, redact text content for text-only elements with no children
 											if (!SKIP_TAGS.has(el.tagName) && isTextOnly(el)) {
-													el.textContent = "[REDACTED]";
+													# el.textContent = "[REDACTED]";
 											}
 									}
 							});
